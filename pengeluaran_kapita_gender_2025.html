@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pengeluaran per Kapita menurut Jenis Kelamin 2025</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #0d1117;
+      color: #e2ddd6;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .wrapper {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 48px 24px 72px;
+    }
+
+    .eyebrow {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #7c5cbf;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: #f0e8ff;
+      margin: 0 0 8px;
+      line-height: 1.2;
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: #7a7268;
+      font-weight: 300;
+      margin: 0 0 36px;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px 28px;
+      margin-bottom: 10px;
+      font-size: 12px;
+      color: #9a9088;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .chart-header {
+      display: grid;
+      grid-template-columns: 180px 1fr 90px;
+      gap: 12px;
+      padding: 0 0 8px;
+      border-bottom: 1px solid #2a2d3a;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #5a5550;
+    }
+
+    .chart-header .col-label { text-align: right; }
+    .chart-header .col-gap   { text-align: center; }
+
+    .chart { display: flex; flex-direction: column; }
+
+    .row {
+      display: grid;
+      grid-template-columns: 180px 1fr 90px;
+      align-items: center;
+      gap: 12px;
+      padding: 6px 0;
+      border-bottom: 1px solid #181b26;
+      transition: background 0.15s;
+    }
+
+    .row:hover { background: rgba(124, 92, 191, 0.06); }
+
+    .label {
+      font-size: 11px;
+      color: #b8b0a4;
+      text-align: right;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      letter-spacing: 0.01em;
+    }
+
+    .bars {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .bar-track {
+      background: #181c26;
+      border-radius: 2px;
+      height: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 2px;
+      width: 0;
+      transition: width 0.7s cubic-bezier(.4, 0, .2, 1);
+      position: relative;
+    }
+
+    .bar-fill::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.1) 0%, transparent 60%);
+    }
+
+    .bar-fill.male   { background: #5b8dee; }
+    .bar-fill.female { background: #e05f8e; }
+
+    .gap-cell {
+      text-align: center;
+      font-size: 11px;
+      font-weight: 500;
+      color: #7a7268;
+    }
+
+    .gap-pct {
+      font-size: 10px;
+      color: #4a4540;
+      margin-left: 2px;
+    }
+
+    .nasional {
+      margin-top: 20px;
+      padding: 12px 16px;
+      background: #131620;
+      border-left: 3px solid #7c5cbf;
+      border-radius: 2px;
+      font-size: 12px;
+      color: #8a8078;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 24px;
+    }
+
+    .nasional strong { color: #b0a8f0; }
+
+    .source {
+      margin-top: 20px;
+      font-size: 10px;
+      color: #3e3a36;
+      letter-spacing: 0.03em;
+    }
+
+    @media (max-width: 520px) {
+      .row, .chart-header {
+        grid-template-columns: 120px 1fr 72px;
+        gap: 8px;
+      }
+      .label { font-size: 10px; }
+      .gap-cell { font-size: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="eyebrow">BPS Indonesia · 2025</div>
+    <h1>Pengeluaran per Kapita Disesuaikan<br>menurut Jenis Kelamin per Provinsi</h1>
+    <p class="subtitle">Tahun 2025 — Ribu Rupiah / Orang / Tahun</p>
+
+    <div class="legend">
+      <div class="legend-item"><div class="dot" style="background:#5b8dee"></div>Laki-laki</div>
+      <div class="legend-item"><div class="dot" style="background:#e05f8e"></div>Perempuan</div>
+      <span style="color:#3e3a36">| Selisih = Laki-laki − Perempuan</span>
+    </div>
+
+    <div class="chart-header">
+      <div class="col-label">Provinsi</div>
+      <div></div>
+      <div class="col-gap">Selisih</div>
+    </div>
+
+    <div class="chart" id="chart"></div>
+
+    <div class="nasional" id="nasional"></div>
+
+    <div class="source">Sumber: BPS — Pengeluaran per Kapita yang Disesuaikan menurut Jenis Kelamin, 2025</div>
+  </div>
+
+  <script>
+    const raw = [
+      { provinsi: "ACEH", lakiLaki: 15666, perempuan: 9434 },
+      { provinsi: "SUMATERA UTARA", lakiLaki: 17091, perempuan: 9296 },
+      { provinsi: "SUMATERA BARAT", lakiLaki: 16886, perempuan: 10788 },
+      { provinsi: "RIAU", lakiLaki: 18140, perempuan: 8294 },
+      { provinsi: "JAMBI", lakiLaki: 17930, perempuan: 8537 },
+      { provinsi: "SUMATERA SELATAN", lakiLaki: 17152, perempuan: 10701 },
+      { provinsi: "BENGKULU", lakiLaki: 17085, perempuan: 9483 },
+      { provinsi: "LAMPUNG", lakiLaki: 16650, perempuan: 8902 },
+      { provinsi: "KEP. BANGKA BELITUNG", lakiLaki: 20433, perempuan: 9663 },
+      { provinsi: "KEPULAUAN RIAU", lakiLaki: 21996, perempuan: 13879 },
+      { provinsi: "DKI JAKARTA", lakiLaki: 25088, perempuan: 18788 },
+      { provinsi: "JAWA BARAT", lakiLaki: 17443, perempuan: 9001 },
+      { provinsi: "JAWA TENGAH", lakiLaki: 17376, perempuan: 11296 },
+      { provinsi: "D I YOGYAKARTA", lakiLaki: 19465, perempuan: 14201 },
+      { provinsi: "JAWA TIMUR", lakiLaki: 19343, perempuan: 11585 },
+      { provinsi: "BANTEN", lakiLaki: 19212, perempuan: 11579 },
+      { provinsi: "BALI", lakiLaki: 18912, perempuan: 14619 },
+      { provinsi: "NUSA TENGGARA BARAT", lakiLaki: 16034, perempuan: 10362 },
+      { provinsi: "NUSA TENGGARA TIMUR", lakiLaki: 11927, perempuan: 8100 },
+      { provinsi: "KALIMANTAN BARAT", lakiLaki: 15797, perempuan: 7267 },
+      { provinsi: "KALIMANTAN TENGAH", lakiLaki: 18130, perempuan: 9052 },
+      { provinsi: "KALIMANTAN SELATAN", lakiLaki: 20441, perempuan: 9848 },
+      { provinsi: "KALIMANTAN TIMUR", lakiLaki: 21218, perempuan: 8623 },
+      { provinsi: "KALIMANTAN UTARA", lakiLaki: 14916, perempuan: 6937 },
+      { provinsi: "SULAWESI UTARA", lakiLaki: 17243, perempuan: 11344 },
+      { provinsi: "SULAWESI TENGAH", lakiLaki: 15098, perempuan: 8965 },
+      { provinsi: "SULAWESI SELATAN", lakiLaki: 18444, perempuan: 11283 },
+      { provinsi: "SULAWESI TENGGARA", lakiLaki: 15492, perempuan: 8954 },
+      { provinsi: "GORONTALO", lakiLaki: 16431, perempuan: 6342 },
+      { provinsi: "SULAWESI BARAT", lakiLaki: 14866, perempuan: 7919 },
+      { provinsi: "MALUKU", lakiLaki: 13354, perempuan: 8620 },
+      { provinsi: "MALUKU UTARA", lakiLaki: 14304, perempuan: 8142 },
+      { provinsi: "PAPUA BARAT", lakiLaki: 13688, perempuan: 5649 },
+      { provinsi: "PAPUA BARAT DAYA", lakiLaki: 13236, perempuan: 5759 },
+      { provinsi: "PAPUA", lakiLaki: 16151, perempuan: 8410 },
+      { provinsi: "PAPUA SELATAN", lakiLaki: 15496, perempuan: 5881 },
+      { provinsi: "PAPUA TENGAH", lakiLaki: 11902, perempuan: 4673 },
+      { provinsi: "PAPUA PEGUNUNGAN", lakiLaki: 7909, perempuan: 5099 },
+    ];
+
+    const nasional = { lakiLaki: 17808, perempuan: 10220 };
+
+    const data = raw.sort((a, b) => b.lakiLaki - a.lakiLaki);
+    const maxNilai = Math.max(...data.map(d => d.lakiLaki));
+
+    function fmt(n) {
+      return n.toLocaleString("id-ID");
+    }
+
+    // Build chart rows
+    const chart = document.getElementById("chart");
+    data.forEach(d => {
+      const malePct  = (d.lakiLaki  / maxNilai) * 100;
+      const femPct   = (d.perempuan / maxNilai) * 100;
+      const selisih  = d.lakiLaki - d.perempuan;
+      const selPct   = ((selisih / d.lakiLaki) * 100).toFixed(1);
+
+      const row = document.createElement("div");
+      row.className = "row";
+      row.innerHTML = `
+        <div class="label" title="${d.provinsi}">${d.provinsi}</div>
+        <div class="bars">
+          <div class="bar-track">
+            <div class="bar-fill male" data-w="${malePct}" title="Laki-laki: ${fmt(d.lakiLaki)}"></div>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill female" data-w="${femPct}" title="Perempuan: ${fmt(d.perempuan)}"></div>
+          </div>
+        </div>
+        <div class="gap-cell">${fmt(selisih)}<span class="gap-pct">(${selPct}%)</span></div>
+      `;
+      chart.appendChild(row);
+    });
+
+    // Nasional note
+    const selNas = nasional.lakiLaki - nasional.perempuan;
+    const selNasPct = ((selNas / nasional.lakiLaki) * 100).toFixed(1);
+    document.getElementById("nasional").innerHTML = `
+      <span>🇮🇩 Rata-rata Nasional —</span>
+      <span>Laki-laki: <strong>${fmt(nasional.lakiLaki)}</strong></span>
+      <span>Perempuan: <strong>${fmt(nasional.perempuan)}</strong></span>
+      <span>Selisih: <strong>${fmt(selNas)}</strong> (${selNasPct}%)</span>
+    `;
+
+    // Animate bars
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        document.querySelectorAll(".bar-fill").forEach((el, i) => {
+          el.style.transitionDelay = (Math.floor(i / 2) * 14) + "ms";
+          el.style.width = el.dataset.w + "%";
+        });
+      });
+    });
+  </script>
+</body>
+</html>
